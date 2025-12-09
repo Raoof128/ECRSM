@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "runtime-security-monitor.fullname" . }}-dashboard
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: runtime-security-dashboard
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 8080
+      protocol: TCP
+      name: http

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: runtime-security-monitor
+version: 0.1.0
+description: eBPF-based runtime security monitor (educational)
+type: application
+appVersion: "0.1.0"

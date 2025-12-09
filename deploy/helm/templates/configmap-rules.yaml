@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "runtime-security-monitor.fullname" . }}-rules
+  labels:
+    app: runtime-security-agent
+data:
+  rules.yaml: |
+    reverse_shell_ports: [4444, 8081, 9001]
+    reverse_shell_bins: [bash, sh, zsh, python]
+    suspicious_paths:
+      - /tmp
+      - /dev/shm
+    notes: "Synthetic educational rules."

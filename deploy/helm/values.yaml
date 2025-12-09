@@ -1,0 +1,26 @@
+image:
+  agent: ghcr.io/example/runtime-agent:latest
+  dashboard: ghcr.io/example/runtime-dashboard:latest
+
+resources:
+  agent:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+  dashboard:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+service:
+  type: ClusterIP
+  port: 8080
+
+rbac:
+  create: true
