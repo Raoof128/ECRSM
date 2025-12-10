@@ -11,6 +11,17 @@
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
 
+#ifndef TASK_COMM_LEN
+#define TASK_COMM_LEN 16
+#endif
+
+// Minimal tracepoint context for sys_enter to avoid dependency on vmlinux.h
+struct trace_event_raw_sys_enter {
+	struct trace_entry ent;
+	long id;
+	unsigned long args[6];
+};
+
 #define FILE_NAME_LEN 256
 #define EVENT_TYPE_LEN 16
 

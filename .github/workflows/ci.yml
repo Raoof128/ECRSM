@@ -14,7 +14,7 @@ jobs:
       - name: Install clang/llvm
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang llvm libbpf-dev linux-libc-dev
+          sudo apt-get install -y clang llvm libbpf-dev linux-libc-dev linux-headers-$(uname -r)
       - name: Build eBPF object
         run: |
           cd ebpf
@@ -28,6 +28,9 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: "1.21"
+      - name: Go mod tidy
+        working-directory: agent
+        run: go mod tidy
       - name: Go fmt check
         run: |
           gofmt -w agent/*.go tests/*.go
