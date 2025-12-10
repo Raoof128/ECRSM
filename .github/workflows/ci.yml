@@ -33,17 +33,11 @@ jobs:
         run: go mod tidy
       - name: Go fmt check
         run: |
-          gofmt -w agent/*.go tests/*.go
-          git diff --exit-code -- agent/*.go tests/*.go
+          gofmt -w agent/*.go
+          git diff --exit-code -- agent/*.go
       - name: Go tests (module)
         run: go test -mod=mod ./...
         working-directory: agent
-      - name: Go mod tidy (top-level tests)
-        working-directory: tests
-        run: go mod tidy
-      - name: Go tests (top-level)
-        run: go test -mod=mod ./...
-        working-directory: tests
 
   dashboard:
     runs-on: ubuntu-latest

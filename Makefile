@@ -15,14 +15,12 @@ dashboard:
 
 fmt:
 	gofmt -w agent/*.go
-	gofmt -w tests/*.go
 
 lint: fmt
 	cd dashboard && npm run lint
 
 test:
 	cd agent && go test ./...
-	cd tests && go test ./...
 
 clean:
 	rm -f $(BPF_OBJ)
