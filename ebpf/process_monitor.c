@@ -6,6 +6,7 @@
 #include <linux/ptrace.h>
 #include <linux/socket.h>
 #include <linux/in.h>
+#include <linux/inet.h>
 #include <linux/mman.h>
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>

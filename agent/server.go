@@ -52,9 +52,9 @@ func (s *AlertServer) ListenAndServe(ctx context.Context, alerts <-chan Alert) e
 		for {
 			select {
 			case <-ctx.Done():
-				return nil
+				return
 			case <-notify:
-				return nil
+				return
 			case alert := <-client:
 				data, err := json.Marshal(alert)
 				if err != nil {
@@ -62,7 +62,7 @@ func (s *AlertServer) ListenAndServe(ctx context.Context, alerts <-chan Alert) e
 					continue
 				}
 				if _, err := w.Write([]byte("data: " + string(data) + "\n\n")); err != nil {
-					return nil
+					return
 				}
 				flusher.Flush()
 			}
