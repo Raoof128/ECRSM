@@ -7,13 +7,20 @@
 #include <linux/socket.h>
 #include <linux/in.h>
 #include <linux/mman.h>
-#include <linux/tracepoint.h>
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
 
 #ifndef TASK_COMM_LEN
 #define TASK_COMM_LEN 16
 #endif
+
+// Minimal definitions to avoid pulling full kernel headers
+struct trace_entry {
+	unsigned short type;
+	unsigned char flags;
+	unsigned char preempt_count;
+	int pid;
+};
 
 // Minimal tracepoint context for sys_enter to avoid dependency on vmlinux.h
 struct trace_event_raw_sys_enter {
