@@ -52,12 +52,12 @@ func detectReverseShell(evt RuntimeEvent) (Alert, bool) {
 			reason = "reverse shell signature: known C2 port"
 		}
 		return Alert{
-			RuleID:    "reverse_shell",
-			Severity:  "high",
-			RiskScore: 85,
-			Reason:    reason,
+			RuleID:         "reverse_shell",
+			Severity:       "high",
+			RiskScore:      85,
+			Reason:         reason,
 			Recommendation: "validate process tree, isolate pod, capture memory snapshot",
-			Event:     evt,
+			Event:          evt,
 		}, true
 	}
 	return Alert{}, false
@@ -67,12 +67,12 @@ func detectInjection(evt RuntimeEvent) (Alert, bool) {
 	et := toString(evt.EventType[:])
 	if et == "ptrace" || et == "mmap_exec" || et == "memfd" {
 		return Alert{
-			RuleID:    "process_injection",
-			Severity:  "high",
-			RiskScore: 90,
-			Reason:    "injection primitive observed (ptrace/mmap_exec/memfd)",
+			RuleID:         "process_injection",
+			Severity:       "high",
+			RiskScore:      90,
+			Reason:         "injection primitive observed (ptrace/mmap_exec/memfd)",
 			Recommendation: "freeze process, capture core, verify container origin",
-			Event:     evt,
+			Event:          evt,
 		}, true
 	}
 	return Alert{}, false
@@ -103,12 +103,12 @@ func detectSuspiciousExec(evt RuntimeEvent) (Alert, bool) {
 		}
 
 		return Alert{
-			RuleID:    "suspicious_exec",
-			Severity:  "medium",
-			RiskScore: 60,
-			Reason:    reason,
+			RuleID:         "suspicious_exec",
+			Severity:       "medium",
+			RiskScore:      60,
+			Reason:         reason,
 			Recommendation: "trace process lineage and compare against allowed list",
-			Event:     evt,
+			Event:          evt,
 		}, true
 	}
 
@@ -118,12 +118,12 @@ func detectSuspiciousExec(evt RuntimeEvent) (Alert, bool) {
 		_, binFlag := reverseShellBins[comm]
 		if binFlag && port != 0 {
 			return Alert{
-				RuleID:    "shell_network_activity",
-				Severity:  "medium",
-				RiskScore: 55,
-				Reason:    "shell binary initiated network connection",
+				RuleID:         "shell_network_activity",
+				Severity:       "medium",
+				RiskScore:      55,
+				Reason:         "shell binary initiated network connection",
 				Recommendation: "verify if session is expected (kubectl exec vs unknown)",
-				Event:     evt,
+				Event:          evt,
 			}, true
 		}
 	}
