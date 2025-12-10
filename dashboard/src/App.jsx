@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './index.css'
 
 const streamURL = import.meta.env.VITE_EVENTS_URL || 'http://localhost:8090/events'

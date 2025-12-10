@@ -14,11 +14,11 @@ jobs:
       - name: Install clang/llvm
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang llvm
+          sudo apt-get install -y clang llvm linux-libc-dev linux-headers-$(uname -r)
       - name: Build eBPF object
         run: |
           cd ebpf
-          clang -O2 -g -target bpf -c process_monitor.c -o process_monitor.bpf.o
+          clang -O2 -g -target bpf -I/usr/include/x86_64-linux-gnu -c process_monitor.c -o process_monitor.bpf.o
 
   go:
     runs-on: ubuntu-latest
