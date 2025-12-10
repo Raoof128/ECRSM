@@ -6,10 +6,13 @@
 #include <linux/ptrace.h>
 #include <linux/socket.h>
 #include <linux/in.h>
-#include <linux/inet.h>
 #include <linux/mman.h>
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
+
+#ifndef AF_INET
+#define AF_INET 2
+#endif
 
 #ifndef TASK_COMM_LEN
 #define TASK_COMM_LEN 16

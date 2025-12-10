@@ -1,4 +1,4 @@
-module github.com/educational/ebpf-runtime-monitor
+module github.com/educational/ebpf-runtime-monitor/agent
 
 go 1.21
 
