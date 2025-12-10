@@ -4,10 +4,10 @@
 
 #include <linux/bpf.h>
 #include <linux/ptrace.h>
-#include <linux/sched.h>
 #include <linux/socket.h>
 #include <linux/in.h>
 #include <linux/mman.h>
+#include <linux/tracepoint.h>
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
 
@@ -45,15 +45,6 @@ struct {
     __uint(value_size, sizeof(__u32));
 } events SEC("maps");
 
-static __always_inline __u32 get_ppid(struct task_struct *task) {
-    // BPF CO-RE to safely read parent TGID
-    __u32 ppid = 0;
-    struct task_struct *parent = BPF_CORE_READ(task, real_parent);
-    if (parent)
-        ppid = BPF_CORE_READ(parent, tgid);
-    return ppid;
-}
-
 static __always_inline int submit_event(void *ctx, struct event_t *evt, const char *etype) {
     __builtin_memset(evt->event_type, 0, EVENT_TYPE_LEN);
     bpf_probe_read_kernel_str(evt->event_type, EVENT_TYPE_LEN, etype);
@@ -66,8 +57,7 @@ static __always_inline void fill_task_context(struct event_t *evt) {
     evt->gid = bpf_get_current_uid_gid() >> 32;
     evt->cgroup_id = bpf_get_current_cgroup_id();
     bpf_get_current_comm(&evt->comm, sizeof(evt->comm));
-    struct task_struct *task = (struct task_struct *)bpf_get_current_task();
-    evt->ppid = get_ppid(task);
+	evt->ppid = 0; // simplified: parent lookup requires CO-RE/vmlinux.h
 }
 
 SEC("tracepoint/syscalls/sys_enter_execve")
